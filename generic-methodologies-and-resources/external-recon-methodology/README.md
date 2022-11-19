@@ -4,15 +4,11 @@
 
 <summary><strong>Support HackTricks and get benefits!</strong></summary>
 
-Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-
-Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-**Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-
-**Share your hacking tricks submitting PRs to the** [**hacktricks github repo**](https://github.com/carlospolop/hacktricks)**.**
+* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Share your hacking tricks by submitting PRs to the** [**hacktricks github repo**](https://github.com/carlospolop/hacktricks)**.**
 
 </details>
 
@@ -156,7 +152,7 @@ Search inside the web pages **strings that could be shared across different webs
 
 ### **CRT Time**
 
-It's common to have a cron job such as&#x20;
+It's common to have a cron job such as
 
 ```bash
 # /etc/crontab
@@ -252,13 +248,13 @@ assetfinder --subs-only <domain>
 sudomy -d tesla.com
 ```
 
-* ****[**vita**](https://github.com/junnlikestea/vita)****
+* [**vita**](https://github.com/junnlikestea/vita)
 
 ```
 vita -d tesla.com
 ```
 
-* ****[**theHarvester**](https://github.com/laramies/theHarvester)****
+* [**theHarvester**](https://github.com/laramies/theHarvester)
 
 ```bash
 theHarvester -d tesla.com -b "anubis, baidu, bing, binaryedge, bingapi, bufferoverun, censys, certspotter, crtsh, dnsdumpster, duckduckgo, fullhunt, github-code, google, hackertarget, hunter, intelx, linkedin, linkedin_links, n45ht, omnisint, otx, pentesttools, projectdiscovery, qwant, rapiddns, rocketreach, securityTrails, spyse, sublist3r, threatcrowd, threatminer, trello, twitter, urlscan, virustotal, yahoo, zoomeye"
@@ -274,6 +270,12 @@ There are **other interesting tools/APIs** that even if not directly specialised
 curl https://sonar.omnisint.io/subdomains/tesla.com | jq -r ".[]"
 ```
 
+* [**JLDC free API**](https://jldc.me/anubis/subdomains/google.com)
+
+```bash
+curl https://jldc.me/anubis/subdomains/tesla.com | jq -r ".[]"
+```
+
 * [**RapidDNS**](https://rapiddns.io) free API
 
 ```bash
@@ -286,7 +288,7 @@ rapiddns(){
 rapiddns tesla.com
 ```
 
-* ****[**https://crt.sh/**](https://crt.sh)****
+* [**https://crt.sh/**](https://crt.sh)
 
 ```bash
 # Get Domains from crt free API
@@ -315,7 +317,7 @@ python3 SubDomainizer.py -u https://tesla.com | grep tesla.com
 python subscraper.py -u tesla.com | grep tesla.com | cut -d " " -f
 ```
 
-* [**Shodan**](https://www.shodan.io/)****
+* [**Shodan**](https://www.shodan.io/)
 
 ```bash
 # Get info about the domain
@@ -324,7 +326,7 @@ shodan domain <domain>
 shodan search "http.html:help.domain.com"
 ```
 
-* ****[**Censys subdomain finder**](https://github.com/christophetd/censys-subdomain-finder)****
+* [**Censys subdomain finder**](https://github.com/christophetd/censys-subdomain-finder)
 
 ```
 export CENSYS_API_ID=...
@@ -332,7 +334,8 @@ export CENSYS_API_SECRET=...
 python3 censys-subdomain-finder.py tesla.com
 ```
 
-#### For bug hunters: [**chaos.projectdiscovery.io**](https://chaos.projectdiscovery.io/#/)
+* [**securitytrails.com**](https://securitytrails.com/) has a free API to search for subdomains and IP history
+* [**chaos.projectdiscovery.io**](https://chaos.projectdiscovery.io/#/)
 
 This project offers for **free all the subdomains related to bug-bounty programs**. You can access this data also using [chaospy](https://github.com/dr-0x0x/chaospy) or even access the scope used by this project [https://github.com/projectdiscovery/chaos-public-program-list](https://github.com/projectdiscovery/chaos-public-program-list)
 
@@ -360,31 +363,31 @@ sed 's/$/.domain.com/' subdomains.txt > bf-subdomains.txt
 grep -E "tesla.com. [0-9]+ IN A .+" /tmp/results.txt
 ```
 
-* &#x20;[**gobuster**](https://github.com/OJ/gobuster): This one I think just uses 1 resolver
+* [**gobuster**](https://github.com/OJ/gobuster): This one I think just uses 1 resolver
 
 ```
 gobuster dns -d mysite.com -t 50 -w subdomains.txt
 ```
 
-* [**shuffledns**](https://github.com/projectdiscovery/shuffledns) **** is a wrapper around `massdns`, written in go, that allows you to enumerate valid subdomains using active bruteforce, as well as resolve subdomains with wildcard handling and easy input-output support.
+* [**shuffledns**](https://github.com/projectdiscovery/shuffledns) is a wrapper around `massdns`, written in go, that allows you to enumerate valid subdomains using active bruteforce, as well as resolve subdomains with wildcard handling and easy input-output support.
 
 ```
 shuffledns -d example.com -list example-subdomains.txt -r resolvers.txt
 ```
 
-* ****[**puredns**](https://github.com/d3mondev/puredns): It also uses `massdns`.
+* [**puredns**](https://github.com/d3mondev/puredns): It also uses `massdns`.
 
 ```
 puredns bruteforce all.txt domain.com
 ```
 
-* [**aiodnsbrute**](https://github.com/blark/aiodnsbrute) **** uses asyncio to brute force domain names asynchronously.
+* [**aiodnsbrute**](https://github.com/blark/aiodnsbrute) uses asyncio to brute force domain names asynchronously.
 
 ```
 aiodnsbrute -r resolvers -w wordlist.txt -vv -t 1024 domain.com
 ```
 
-### Second DNS bruteforce round
+### Second DNS Brute-Force Round
 
 After having found subdomains using open sources and brute-forcing, you could generate alterations of the subdomains found to try to find even more. Several tools are useful for this purpose:
 
@@ -394,7 +397,7 @@ After having found subdomains using open sources and brute-forcing, you could ge
 cat subdomains.txt | dnsgen -
 ```
 
-* ****[**goaltdns**](https://github.com/subfinder/goaltdns): Given the domains and subdomains generate permutations.
+* [**goaltdns**](https://github.com/subfinder/goaltdns): Given the domains and subdomains generate permutations.
   * You can get goaltdns permutations **wordlist** in [**here**](https://github.com/subfinder/goaltdns/blob/master/words.txt).
 
 ```bash
@@ -414,23 +417,45 @@ gotator -sub subdomains.txt -silent [-perm /tmp/words-permutations.txt]
 altdns -i subdomains.txt -w /tmp/words-permutations.txt -o /tmp/asd3
 ```
 
-* ****[**dmut**](https://github.com/bp0lr/dmut): Another tool to perform permutations, mutations and alteration of subdomains. This tool will brute force the result (it doesn't support dns wild card).
+* [**dmut**](https://github.com/bp0lr/dmut): Another tool to perform permutations, mutations and alteration of subdomains. This tool will brute force the result (it doesn't support dns wild card).
   * You can get dmut permutations wordlist in [**here**](https://raw.githubusercontent.com/bp0lr/dmut/main/words.txt).
 
 ```bash
-cat subdomains.txt | dmut -d /tmp/words-permutations.txt -w 100 \
+cat subdomains.txt | dmut -d /tmp/words-permutations.txt -w 100 \
     --dns-errorLimit 10 --use-pb --verbose -s /tmp/resolvers-trusted.txt
 ```
 
+#### Smart permutations generation
+
+* [**regulator**](https://github.com/cramppet/regulator): For more info read this [**post**](https://cramppet.github.io/regulator/index.html) but it will basically get the **main parts** from the **discovered subdomains** and will mix them to find more subdomains.
+
+```bash
+python3 main.py adobe.com adobe adobe.rules
+make_brute_list.sh adobe.rules adobe.brute
+puredns resolve adobe.brute --write adobe.valid
+```
+
+### **Subdomain Discovery Workflow**
+
+Check this blog post I wrote about how to **automate the subdomain discovery** from a domain using **Trickest workflows** so I don't need to launch manually a bunch of tools in my computer:
+
+{% embed url="https://trickest.com/blog/full-subdomain-discovery-using-workflow/" %}
+
 ### **VHosts / Virtual Hosts**
 
-You can find some VHosts in IPs using [HostHunter](https://github.com/SpiderLabs/HostHunter) or other APIs.
+If you found an IP address containing **one or several web pages** belonging to subdomains, you could try to **find other subdomains with webs in that IP** by looking in **OSINT sources** for domains in an IP or by **brute-forcing VHost domain names in that IP**.
+
+#### OSINT
+
+You can find some **VHosts in IPs using** [**HostHunter**](https://github.com/SpiderLabs/HostHunter) **or other APIs**.
 
 **Brute Force**
 
 If you suspect that some subdomain can be hidden in a web server you could try to brute force it:
 
 ```bash
+ffuf -c -w /path/to/wordlist -u http://victim.com -H "Host: FUZZ.victim.com"
+
 gobuster vhost -u https://mysite.com -t 50 -w subdomains.txt
 
 wfuzz -c -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-20000.txt --hc 400,404,403 -H "Host: FUZZ.example.com" -u http://example.com -t 100
@@ -471,6 +496,21 @@ If the **subdomain** is pointing to some **S3 bucket**, [**check the permissions
 If you find any **subdomain with an IP different** from the ones you already found in the assets discovery, you should perform a **basic vulnerability scan** (using Nessus or OpenVAS) and some [**port scan**](../pentesting-network/#discovering-hosts-from-the-outside) with **nmap/masscan/shodan**. Depending on which services are running you can find in **this book some tricks to "attack" them**.\
 _Note that sometimes the subdomain is hosted inside an IP that is not controlled by the client, so it's not in the scope, be careful._
 
+## IPs
+
+In the initial steps you might have **found some IP ranges, domains and subdomains**.\
+It’s time to **recollect all the IPs from those ranges** and for the **domains/subdomains (DNS queries).**
+
+Using services from the following **free apis** you can also find **previous IPs used by domains and subdomains**. These IPs might still be owned by the client (and might allow you to find [**CloudFlare bypasses**](../../network-services-pentesting/pentesting-web/uncovering-cloudflare.md))
+
+* [**https://securitytrails.com/**](https://securitytrails.com/)
+
+### **Looking for vulnerabilities**
+
+**Port scan all the IPs that doesn’t belong to CDNs** (as you highly probably won’t find anything interested in there). In the running services discovered you might be **able to find vulnerabilities**.
+
+**Find a** [**guide**](../pentesting-network/) **about how to scan hosts.**
+
 ## Web servers hunting
 
 > We have found all the companies and their assets and we know IP ranges, domains and subdomains inside the scope. It's time to search for web servers.
@@ -480,7 +520,7 @@ In the previous steps you have probably already performed some **recon of the IP
 Please, note that this will be **oriented for web apps discovery**, so you should **perform the vulnerability** and **port scanning** also (**if allowed** by the scope).
 
 A **fast method** to discover **ports open** related to **web** servers using [**masscan** can be found here](../pentesting-network/#http-port-discovery).\
-Another friendly tool to look for web servers is [**httprobe**](https://github.com/tomnomnom/httprobe) **and** [**fprobe**](https://github.com/theblackturtle/fprobe). You just pass a list of domains and it will try to connect to port 80 (http) and 443 (https). Additionaly, you can indicate to try other ports:
+Another friendly tool to look for web servers is [**httprobe**](https://github.com/tomnomnom/httprobe)**,** [**fprobe**](https://github.com/theblackturtle/fprobe) and [**httpx**](https://github.com/projectdiscovery/httpx). You just pass a list of domains and it will try to connect to port 80 (http) and 443 (https). Additionally, you can indicate to try other ports:
 
 ```bash
 cat /tmp/domains.txt | httprobe #Test all domains inside the file for port 80 and 443
@@ -491,16 +531,111 @@ cat /tmp/domains.txt | httprobe -p http:8080 -p https:8443 #Check port 80, 443 a
 
 Now that you have discovered **all the web servers** present in the scope (among the **IPs** of the company and all the **domains** and **subdomains**) you probably **don't know where to start**. So, let's make it simple and start just taking screenshots of all of them. Just by **taking a look** at the **main page** you can find **weird** endpoints that are more **prone** to be **vulnerable**.
 
-To perform the proposed idea you can use [**EyeWitness**](https://github.com/FortyNorthSecurity/EyeWitness), [**HttpScreenshot**](https://github.com/breenmachine/httpscreenshot), [**Aquatone**](https://github.com/michenriksen/aquatone), \[shutter]\([**https://shutter-project.org/downloads/**](https://shutter-project.org/downloads/)) or [**webscreenshot**](https://github.com/maaaaz/webscreenshot)**.**
+To perform the proposed idea you can use [**EyeWitness**](https://github.com/FortyNorthSecurity/EyeWitness), [**HttpScreenshot**](https://github.com/breenmachine/httpscreenshot), [**Aquatone**](https://github.com/michenriksen/aquatone), [**Shutter**](https://shutter-project.org/downloads/third-party-packages/) or [**webscreenshot**](https://github.com/maaaaz/webscreenshot)**.**
 
-### Cloud Assets
+Moreover, you could then use [**eyeballer**](https://github.com/BishopFox/eyeballer) to run over all the **screenshots** to tell you **what's likely to contain vulnerabilities**, and what isn't.
 
-Just with some **specific keywords** identifying the company it's possible to enumerate possible cloud assets belonging to them with tools like [**cloud\_enum**](https://github.com/initstring/cloud\_enum)**,** [**CloudScraper**](https://github.com/jordanpotti/CloudScraper) **or** [**cloudlist**](https://github.com/projectdiscovery/cloudlist)**.**
+## Public Cloud Assets
 
-## Recapitulation 1
+In order to find potential cloud assets belonging to a company you should **start with a list of keywords that identify that company**. For example, a crypto for a crypto company you might use words such as: `"crypto", "wallet", "dao", "<domain_name>", <"subdomain_names">`.
 
-> Congratulations! At this point you have already perform all the basic enumeration. Yes, it's basic because a lot more enumeration can be done (will see more tricks later).\
-> Do you know that the BBs experts recommends to spend only 10-15mins in this phase? But don't worry, one you have practice you will do this even faster than that.
+You will also need wordlists of **common words used in buckets**:
+
+* [https://raw.githubusercontent.com/cujanovic/goaltdns/master/words.txt](https://raw.githubusercontent.com/cujanovic/goaltdns/master/words.txt)
+* [https://raw.githubusercontent.com/infosec-au/altdns/master/words.txt](https://raw.githubusercontent.com/infosec-au/altdns/master/words.txt)
+* [https://raw.githubusercontent.com/jordanpotti/AWSBucketDump/master/BucketNames.txt](https://raw.githubusercontent.com/jordanpotti/AWSBucketDump/master/BucketNames.txt)
+
+Then, with those words you should generate **permutations** (check the [**Second Round DNS Brute-Force**](./#second-dns-bruteforce-round) for more info).
+
+With the resulting wordlists you could use tools such as [**cloud\_enum**](https://github.com/initstring/cloud\_enum)**,** [**CloudScraper**](https://github.com/jordanpotti/CloudScraper)**,** [**cloudlist**](https://github.com/projectdiscovery/cloudlist) **or** [**S3Scanner**](https://github.com/sa7mon/S3Scanner)**.**
+
+Remember that when looking for Cloud Assets you should l**ook for more than just buckets in AWS**.
+
+### **Looking for vulnerabilities**
+
+If you find things such as **open buckets or cloud functions exposed** you should **access them** and try to see what they offer you and if you can abuse them.
+
+## Emails
+
+With the **domains** and **subdomains** inside the scope you basically have all what you **need to start searching for emails**. These are the **APIs** and **tools** that have worked the best for me to find emails of a company:
+
+* [**theHarvester**](https://github.com/laramies/theHarvester) - with APIs
+* API of [**https://hunter.io/**](https://hunter.io/) (free version)
+* API of [**https://app.snov.io/**](https://app.snov.io/) (free version)
+* API of [**https://minelead.io/**](https://minelead.io/) (free version)
+
+### **Looking for vulnerabilities**
+
+Emails will come handy later to **brute-force web logins and auth services** (such as SSH). Also, they are needed for **phishings**. Moreover, these APIs will give you even more **info about the person** behind the email, which is useful for the phishing campaign.
+
+## Credential Leaks
+
+With the **domains,** **subdomains**, and **emails** you can start looking for credentials leaked in the past belonging to those emails:
+
+* [https://leak-lookup.com](https://leak-lookup.com/account/login)
+* [https://www.dehashed.com/](https://www.dehashed.com/)
+
+### **Looking for vulnerabilities**
+
+If you find **valid leaked** credentials, this is a very easy win.
+
+## Secrets Leaks
+
+Credential leaks are related to hacks of companies where **sensitive information was leaked and sold**. However, companies might be affected for **other leaks** whose info isn't in those databases:
+
+### Github Leaks
+
+Credentials and APIs might be leaked in the **public repositories** of the **company** or of the **users** working by that github company.\
+You can use the **tool** [**Leakos**](https://github.com/carlospolop/Leakos) to **download** all the **public repos** of an **organization** and of its **developers** and run [**gitleaks**](https://github.com/zricethezav/gitleaks) over them automatically.
+
+**Leakos** can also be used to run **gitleaks** agains all the **text** provided **URLs passed** to it as sometimes **web pages also contains secrets**.
+
+#### Github Dorks
+
+Check also this **page** for potential **github dorks** you could also search for in the organization you are attacking:
+
+{% content-ref url="github-leaked-secrets.md" %}
+[github-leaked-secrets.md](github-leaked-secrets.md)
+{% endcontent-ref %}
+
+### Pastes Leaks
+
+Sometimes attackers or just workers will **publish company content in a paste site**. This might or might not contain **sensitive information**, but it's very interesting to search for it.\
+You can use the tool [**Pastos**](https://github.com/carlospolop/Pastos) to search in more that 80 paste sites at the same time.
+
+### Google Dorks
+
+Old but gold google dorks are always useful to find **exposed information that shouldn't be there**. The only problem is that the [**google-hacking-database**](https://www.exploit-db.com/google-hacking-database) contains several **thousands** of possible queries that you cannot run manually. So, you can get your favourite 10 ones or you could use a **tool such as** [**Gorks**](https://github.com/carlospolop/Gorks) **to run them all**.
+
+_Note that the tools that expect to run all the database using the regular Google browser will never end as google will block you very very soon._
+
+### **Looking for vulnerabilities**
+
+If you find **valid leaked** credentials or API tokens, this is a very easy win.
+
+## Public Code Vulnerabilities
+
+If you found that the company has **open-source code** you can **analyse** it and search for **vulnerabilities** on it.
+
+**Depending on the language** there are different **tools** you can use:
+
+{% content-ref url="../../network-services-pentesting/pentesting-web/code-review-tools.md" %}
+[code-review-tools.md](../../network-services-pentesting/pentesting-web/code-review-tools.md)
+{% endcontent-ref %}
+
+There are also free services that allow you to **scan public repositories**, such as:
+
+* [**Snyk**](https://app.snyk.io/)
+
+## [**Pentesting Web Methodology**](../../network-services-pentesting/pentesting-web/)
+
+The **majority of the vulnerabilities** found by bug hunters resides inside **web applications**, so at this point I would like to talk about a **web application testing methodology**, and you can [**find this information here**](../../network-services-pentesting/pentesting-web/).
+
+I also want to do a special mention to the section [**Web Automated Scanners open source tools**](../../network-services-pentesting/pentesting-web/#automatic-scanners), as, if you shouldn't expect them to find you very sensitive vulnerabilities, they come handy to implement them on **workflows to have some initial web information.**
+
+## Recapitulation
+
+> Congratulations! At this point you have already perform **all the basic enumeration**. Yes, it's basic because a lot more enumeration can be done (will see more tricks later).
 
 So you have already:
 
@@ -508,32 +643,13 @@ So you have already:
 2. Found all the **assets** belonging to the companies (and perform some vuln scan if in scope)
 3. Found all the **domains** belonging to the companies
 4. Found all the **subdomains** of the domains (any subdomain takeover?)
-5. Found all the **web servers** and took a **screenshot** of them (anything weird worth a deeper look?)
+5. Found all the **IPs** (from and **not from CDNs**) inside the scope.
+6. Found all the **web servers** and took a **screenshot** of them (anything weird worth a deeper look?)
+7. Found all the **potential public cloud assets** belonging to the company.
+8. **Emails**, **credentials leaks**, and **secret leaks** that could give you a **big win very easily**.
+9. **Pentesting all the webs you found**
 
-Then, it's time for the real Bug Bounty hunt! In this methodology I'm **not going to talk about how to scan hosts** (you can see a [guide for that here](../pentesting-network/)), how to use tools like Nessus or OpenVas to perform a **vuln scan** or how to **look for vulnerabilities** in the services open (this book already contains tons of information about possible vulnerabilities on a lot of common services). **But, don't forget that if the scope allows it, you should give it a try.**
-
-### Github leaked secrets
-
-{% content-ref url="github-leaked-secrets.md" %}
-[github-leaked-secrets.md](github-leaked-secrets.md)
-{% endcontent-ref %}
-
-You can also search for leaked secrets in all open repository platforms using: [https://searchcode.com/?q=auth\_key](https://searchcode.com/?q=auth\_key)
-
-### [**Pentesting Web Methodology**](../../network-services-pentesting/pentesting-web/)
-
-Anyway, the **majority of the vulnerabilities** found by bug hunters resides inside **web applications**, so at this point I would like to talk about a **web application testing methodology**, and you can [**find this information here**](../../network-services-pentesting/pentesting-web/).
-
-## Recapitulation 2
-
-> Congratulations! The testing has finished! I hope you have find some vulnerabilities.
-
-At this point you should have already read the Pentesting Web Methodology and applied it to the scope.\
-As you can see there is a lot of different vulnerabilities to search for.
-
-**If you have find any vulnerability thanks to this book, please reference the book in your write-up.**
-
-### **Automatic Tools**
+## **Full Recon Automatic Tools**
 
 There are several tools out there that will perform part of the proposed actions against a given scope.
 
@@ -555,14 +671,10 @@ There are several tools out there that will perform part of the proposed actions
 
 <summary><strong>Support HackTricks and get benefits!</strong></summary>
 
-Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-
-Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-**Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-
-**Share your hacking tricks submitting PRs to the** [**hacktricks github repo**](https://github.com/carlospolop/hacktricks)**.**
+* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Share your hacking tricks by submitting PRs to the** [**hacktricks github repo**](https://github.com/carlospolop/hacktricks)**.**
 
 </details>

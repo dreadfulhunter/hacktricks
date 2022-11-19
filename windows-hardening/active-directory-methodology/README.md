@@ -4,15 +4,11 @@
 
 <summary><strong>Support HackTricks and get benefits!</strong></summary>
 
-Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-
-Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-**Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-
-**Share your hacking tricks submitting PRs to the** [**hacktricks github repo**](https://github.com/carlospolop/hacktricks)**.**
+* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Share your hacking tricks by submitting PRs to the** [**hacktricks github repo**](https://github.com/carlospolop/hacktricks)**.**
 
 </details>
 
@@ -64,13 +60,23 @@ If you just have access to an AD environment but you don't have any credentials/
   * `enum4linux -a -u "" -p "" <DC IP> && enum4linux -a -u "guest" -p "" <DC IP>`
   * `smbmap -u "" -p "" -P 445 -H <DC IP> && smbmap -u "guest" -p "" -P 445 -H <DC IP>`
   * `smbclient -U '%' -L //<DC IP> && smbclient -U 'guest%' -L //`
-  * [**A more detailed guide on how to enumerate a SMB server can be found here.**](../../network-services-pentesting/pentesting-smb.md)
+  * A more detailed guide on how to enumerate a SMB server can be found here:
+
+{% content-ref url="../../network-services-pentesting/pentesting-smb.md" %}
+[pentesting-smb.md](../../network-services-pentesting/pentesting-smb.md)
+{% endcontent-ref %}
+
 * **Enumerate Ldap**
   * `nmap -n -sV --script "ldap* and not brute" -p 389 <DC IP>`
-  * [**A more detailed guide on how to enumerate LDAP can be found here.**](../../network-services-pentesting/pentesting-ldap.md)
+  * A more detailed guide on how to enumerate LDAP can be found here (pay **special attention to the anonymous access**):
+
+{% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
+[pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
+{% endcontent-ref %}
+
 * **Poison the network**
   * Gather credentials [**impersonating services with Responder**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)
-  * Access host by [**abusing the relay attack**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack)****
+  * Access host by [**abusing the relay attack**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack)
   * Gather credentials **exposing** [**fake UPnP services with evil-S**](../../generic-methodologies-and-resources/pentesting-network/spoofing-ssdp-and-upnp-devices.md)[**SDP**](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)
 * [**OSINT**](https://book.hacktricks.xyz/external-recon-methodology):
   * Extract usernames/names from internal documents, social media, services (mainly web) inside the domain environments and also from the publicly available.
@@ -81,23 +87,21 @@ If you just have access to an AD environment but you don't have any credentials/
 
 ### User enumeration
 
-When an **invalid username is requested** the server will respond using the **Kerberos error** code _KRB5KDC\_ERR\_C\_PRINCIPAL\_UNKNOWN_, allowing us to determine that the username was invalid. **Valid usernames** will illicit either the **TGT in a AS-REP** response or the error _KRB5KDC\_ERR\_PREAUTH\_REQUIRED_, indicating that the user is required to perform pre-authentication.
+* **Anonymous SMB/LDAP enum:** Check the [**pentesting SMB**](../../network-services-pentesting/pentesting-smb.md) and [**pentesting LDAP**](../../network-services-pentesting/pentesting-ldap.md) pages.
+* **Kerbrute enum**: When an **invalid username is requested** the server will respond using the **Kerberos error** code _KRB5KDC\_ERR\_C\_PRINCIPAL\_UNKNOWN_, allowing us to determine that the username was invalid. **Valid usernames** will illicit either the **TGT in a AS-REP** response or the error _KRB5KDC\_ERR\_PREAUTH\_REQUIRED_, indicating that the user is required to perform pre-authentication.
 
-```
-./kerbrute_linux_amd64 userenum -d lab.ropnop.com usernames.txt
+```bash
+./kerbrute_linux_amd64 userenum -d lab.ropnop.com --dc 10.10.10.10 usernames.txt #From https://github.com/ropnop/kerbrute/releases
+
 nmap -p 88 --script=krb5-enum-users --script-args="krb5-enum-users.realm='DOMAIN'" <IP>
 Nmap -p 88 --script=krb5-enum-users --script-args krb5-enum-users.realm='<domain>',userdb=/root/Desktop/usernames.txt <IP>
+
 msf> use auxiliary/gather/kerberos_enumusers
+
 crackmapexec smb dominio.es  -u '' -p '' --users | awk '{print $4}' | uniq
 ```
 
-{% hint style="warning" %}
-You can find lists of usernames in [**this github repo**](https://github.com/danielmiessler/SecLists/tree/master/Usernames/Names).
-
-However, you should have the **name of the people working on the company** from the recon step you should have performed before this. With the name and surname you could used the script [**namemash.py**](https://gist.github.com/superkojiman/11076951) **** to generate potential valid usernames.
-{% endhint %}
-
-#### **OWA (Outlook Web Access) Server**
+* **OWA (Outlook Web Access) Server**
 
 If you found one of these servers in the network you can also perform **user enumeration against it**. For example, you could use the tool [**MailSniper**](https://github.com/dafthack/MailSniper):
 
@@ -113,16 +117,53 @@ Invoke-PasswordSprayOWA -ExchHostname [ip] -UserList .\valid.txt -Password Summe
 Get-GlobalAddressList -ExchHostname [ip] -UserName [domain]\[username] -Password Summer2021 -OutFile gal.txt
 ```
 
+{% hint style="warning" %}
+You can find lists of usernames in [**this github repo**](https://github.com/danielmiessler/SecLists/tree/master/Usernames/Names) **** and this one ([**statistically-likely-usernames**](https://github.com/insidetrust/statistically-likely-usernames)).
+
+However, you should have the **name of the people working on the company** from the recon step you should have performed before this. With the name and surname you could used the script [**namemash.py**](https://gist.github.com/superkojiman/11076951) to generate potential valid usernames.
+{% endhint %}
+
 ### Knowing one or several usernames
 
 Ok, so you know you have already a valid username but no passwords... Then try:
 
 * [**ASREPRoast**](asreproast.md): If a user **doesn't have** the attribute _DONT\_REQ\_PREAUTH_ you can **request a AS\_REP message** for that user that will contain some data encrypted by a derivation of the password of the user.
-* [**Password Spraying**](password-spraying.md): Let's try the most **common passwords** with each of the discovered users, maybe some user is using a bad password (keep in mind the password policy!) or could login with empty password: [Invoke-SprayEmptyPassword.ps1](https://github.com/S3cur3Th1sSh1t/Creds/blob/master/PowershellScripts/Invoke-SprayEmptyPassword.ps1).
+* [**Password Spraying**](password-spraying.md): Let's try the most **common passwords** with each of the discovered users, maybe some user is using a bad password (keep in mind the password policy!).
+  * Note that you can also **spray OWA servers** to try to get access to the users mail servers.
+
+{% content-ref url="password-spraying.md" %}
+[password-spraying.md](password-spraying.md)
+{% endcontent-ref %}
+
+### LLMNR/NBT-NS Poisoning
+
+You might be able to **obtain** some challenge **hashes** to crack **poisoning** some protocols of the **network**:
+
+{% content-ref url="../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md" %}
+[spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)
+{% endcontent-ref %}
+
+### NTML Relay
+
+If you have managed to enumerate the active directory you will have **more emails and a better understanding of the network**. You might be able to to force NTML [**relay attacks**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack) **** to get access to the AD env.
+
+### Steal NTLM Creds
+
+If you can **access other PCs or shares** with the **null or guest user** you could **place files** (like a SCF file) that if somehow accessed will t**rigger an NTML authentication against you** so you can **steal** the **NTLM challenge** to crack it:
+
+{% content-ref url="../ntlm/places-to-steal-ntlm-creds.md" %}
+[places-to-steal-ntlm-creds.md](../ntlm/places-to-steal-ntlm-creds.md)
+{% endcontent-ref %}
 
 ## Enumerating Active Directory WITH credentials/session
 
 For this phase you need to have **compromised the credentials or a session of a valid domain account.** If you have some valid credentials or a shell as a domain user, **you should remember that the options given before are still options to compromise other users**.
+
+Before start the authenticated enumeration you should know what is the **Kerberos double hop problem.**
+
+{% content-ref url="kerberos-double-hop-problem.md" %}
+[kerberos-double-hop-problem.md](kerberos-double-hop-problem.md)
+{% endcontent-ref %}
 
 ### Enumeration
 
@@ -134,13 +175,15 @@ Regarding [**ASREPRoast**](asreproast.md) you can now find every possible vulner
 * You can also use [**powershell for recon**](../basic-powershell-for-pentesters/) which will be stealthier
 * You ca also [**use powerview**](../basic-powershell-for-pentesters/powerview.md) to extract more detailed information
 * Another amazing tool for recon in an active directory is [**BloodHound**](bloodhound.md). It is **not very stealthy** (depending on the collection methods you use), but **if you don't care** about that, you should totally give it a try. Find where users can RDP, find path to other groups, etc.
+  * **Other automated AD enumeration tools are:** [**AD Explorer**](bloodhound.md#ad-explorer)**,** [**ADRecon**](bloodhound.md#adrecon)**,** [**Group3r**](bloodhound.md#group3r)**,** [**PingCastle**](bloodhound.md#pingcastle)**.**
+* ****[**DNS records of the AD**](ad-dns-records.md) **** as they might contain interesting information.
 * A **tool with GUI** that you can use to enumerate the directory is **AdExplorer.exe** from **SysInternal** Suite.
 * You can also search in the LDAP database with **ldapsearch** to look for credentials in fields _userPassword_ & _unixUserPassword_, or even for _Description_. cf. [Password in AD User comment on PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Active%20Directory%20Attack.md#password-in-ad-user-comment) for other methods.
 * If you are using **Linux**, you could also enumerate the domain using [**pywerview**](https://github.com/the-useless-one/pywerview).
 * You could also try automated tools as:
-  * [**tomcarver16/ADSearch**](https://github.com/tomcarver16/ADSearch)****
-  * ****[**61106960/adPEAS**](https://github.com/61106960/adPEAS)****
-*   #### Extracting all domain users
+  * [**tomcarver16/ADSearch**](https://github.com/tomcarver16/ADSearch)
+  * [**61106960/adPEAS**](https://github.com/61106960/adPEAS)
+*   **Extracting all domain users**
 
     It's very easy to obtain all the domain usernames from Windows (`net user /domain` ,`Get-DomainUser` or `wmic useraccount get name,sid`). In Linux, you can use: `GetADUsers.py -all -dc-ip 10.10.10.110 domain.com/username` or `enum4linux -a -u "user" -p "password" <DC IP>`
 
@@ -148,9 +191,12 @@ Regarding [**ASREPRoast**](asreproast.md) you can now find every possible vulner
 
 ### Kerberoast
 
-The goal of Kerberoasting is to harvest **TGS tickets for services that run on behalf of domain user accounts**. Part of these TGS tickets are **encrypted wit keys derived from user passwords**. As a consequence, their credentials could be **cracked offline**.
+The goal of Kerberoasting is to harvest **TGS tickets for services that run on behalf of domain user accounts**. Part of these TGS tickets are **encrypted wit keys derived from user passwords**. As a consequence, their credentials could be **cracked offline**.\
+More about this in:
 
-**Find more information about this attack** [**in the Kerberoast page**](kerberoast.md)**.**
+{% content-ref url="kerberoast.md" %}
+[kerberoast.md](kerberoast.md)
+{% endcontent-ref %}
 
 ### Remote connexion (RDP, SSH, FTP, Win-RM, etc)
 
@@ -178,6 +224,28 @@ It's very **unlikely** that you will find **tickets** in the current user **givi
 
 If you have managed to enumerate the active directory you will have **more emails and a better understanding of the network**. You might be able to to force NTML [**relay attacks**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack)**.**
 
+### **Looks for Creds in Computer Shares**
+
+Now that you have some basic credentials you should check if you can **find** any **interesting files being shared inside the AD**. You could do that manually but it's a very boring repetitive task (and more if you find hundreds of docs you need to check).
+
+****[**Follow this link to learn about tools you could use.**](../../network-services-pentesting/pentesting-smb.md#domain-shared-folders-search)****
+
+### Steal NTLM Creds
+
+If you can **access other PCs or shares** you could **place files** (like a SCF file) that if somehow accessed will t**rigger an NTML authentication against you** so you can **steal** the **NTLM challenge** to crack it:
+
+{% content-ref url="../ntlm/places-to-steal-ntlm-creds.md" %}
+[places-to-steal-ntlm-creds.md](../ntlm/places-to-steal-ntlm-creds.md)
+{% endcontent-ref %}
+
+### CVE-2021-1675/CVE-2021-34527 PrintNightmare
+
+This vulnerability allowed any authenticated user to **compromise the domain controller**.
+
+{% content-ref url="printnightmare.md" %}
+[printnightmare.md](printnightmare.md)
+{% endcontent-ref %}
+
 ## Privilege escalation on Active Directory WITH privileged credentials/session
 
 **For the following techniques a regular domain user is not enough, you need some special privileges/credentials to perform these attacks.**
@@ -192,7 +260,7 @@ Then, its time to dump all the hashes in memory and locally.\
 
 **Once you have the hash of a user**, you can use it to **impersonate** it.\
 You need to use some **tool** that will **perform** the **NTLM authentication using** that **hash**, **or** you could create a new **sessionlogon** and **inject** that **hash** inside the **LSASS**, so when any **NTLM authentication is performed**, that **hash will be used.** The last option is what mimikatz does.\
-****[**Read this page for more information.**](../ntlm/#pass-the-hash)****
+[**Read this page for more information.**](../ntlm/#pass-the-hash)
 
 ### Over Pass the Hash/Pass the Key
 
@@ -209,6 +277,20 @@ This attack is similar to Pass the Key, but instead of using hashes to request a
 {% content-ref url="pass-the-ticket.md" %}
 [pass-the-ticket.md](pass-the-ticket.md)
 {% endcontent-ref %}
+
+### Credentials Reuse
+
+If you have the **hash** or **password** of a **local administrato**r you should try to **login locally** to other **PCs** with it.
+
+```bash
+# Local Auth Spray (once you found some local admin pass or hash)
+## --local-auth flag indicate to only try 1 time per machine
+crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9cab376ecd08491764a0 | grep +
+```
+
+{% hint style="warning" %}
+Note that this is quite **noisy** and **LAPS** would **mitigate** it.
+{% endhint %}
 
 ### MSSQL Abuse & Trusted Links
 
@@ -251,8 +333,8 @@ It's possible to gain code execution with **elevated privileges on a remote comp
 
 The compromised user could have some **interesting privileges over some domain objects** that could let you **move** laterally/**escalate** privileges.
 
-{% content-ref url="acl-persistence-abuse.md" %}
-[acl-persistence-abuse.md](acl-persistence-abuse.md)
+{% content-ref url="acl-persistence-abuse/" %}
+[acl-persistence-abuse](acl-persistence-abuse/)
 {% endcontent-ref %}
 
 ### Printer Spooler service abuse
@@ -313,7 +395,7 @@ For example you could:
     ```powershell
     Set-DomainObject -Identity <username> -Set @{serviceprincipalname="fake/NOTHING"}r
     ```
-*   Make users vulnerable to [**ASREPRoast** ](asreproast.md)
+*   Make users vulnerable to [**ASREPRoast**](asreproast.md)
 
     ```powershell
     Set-DomainObject -Identity <username> -XOR @{UserAccountControl=4194304}
@@ -321,7 +403,7 @@ For example you could:
 *   Grant [**DCSync**](./#dcsync) privileges to a user
 
     ```powershell
-    Add-DomainObjectAcl -TargetIdentity "DC=dev,DC=cyberbotic,DC=io" -PrincipalIdentity bfarmer -Rights DCSync
+    Add-DomainObjectAcl -TargetIdentity "DC=SUB,DC=DOMAIN,DC=LOCAL" -PrincipalIdentity bfarmer -Rights DCSync
     ```
 
 ### Silver Ticket
@@ -369,7 +451,7 @@ These are like golden tickets forged in a way that **bypasses common golden tick
 The Access Control List (ACL) of the **AdminSDHolder** object is used as a template to **copy** **permissions** to **all “protected groups”** in Active Directory and their members. Protected groups include privileged groups such as Domain Admins, Administrators, Enterprise Admins, and Schema Admins, Backup Operators and krbtgt.\
 By default, the ACL of this group is copied inside all the "protected groups". This is done to avoid intentional or accidental changes to these critical groups. However, if an attacker **modifies the ACL** of the group **AdminSDHolder** for example, giving full permissions to a regular user, this user will have full permissions on all the groups inside the protected group (in an hour).\
 And if someone tries to delete this user from the Domain Admins (for example) in an hour or less, the user will be back in the group.\
-****[**More information about AdminDSHolder Group here.**](privileged-accounts-and-token-privileges.md#adminsdholder-group)****
+[**More information about AdminDSHolder Group here.**](privileged-groups-and-token-privileges.md#adminsdholder-group)
 
 ### DSRM Credentials
 
@@ -383,8 +465,8 @@ There is a **local administrator** account inside each **DC**. Having admin priv
 
 You could **give** some **special permissions** to a **user** over some specific domain objects that will let the user **escalate privileges in the future**.
 
-{% content-ref url="acl-persistence-abuse.md" %}
-[acl-persistence-abuse.md](acl-persistence-abuse.md)
+{% content-ref url="acl-persistence-abuse/" %}
+[acl-persistence-abuse](acl-persistence-abuse/)
 {% endcontent-ref %}
 
 ### Security Descriptors
@@ -406,8 +488,7 @@ The **security descriptors** are used to **store** the **permissions** an **obje
 ### Custom SSP
 
 [Learn what is a SSP (Security Support Provider) here.](../authentication-credentials-uac-and-efs.md#security-support-provider-interface-sspi)\
-You can create you **own SSP** to **capture** in **clear text** the **credentials** used to access the machine.\
-
+You can create you **own SSP** to **capture** in **clear text** the **credentials** used to access the machine.\\
 
 {% content-ref url="custom-ssp.md" %}
 [custom-ssp.md](custom-ssp.md)
@@ -452,16 +533,19 @@ It's important to notice that **a trust can be 1 way or 2 ways**. In the 2 ways 
 
 If Domain A trusts Domain B, A is the trusting domain and B ins the trusted one. Moreover, in **Domain A**, this would be an **Outbound trust**; and in **Domain B**, this would be an **Inbound trust**.
 
-A trust relationship can also be **transitive** (A trust B, B trust C, then A trust C) or **non-transitive**.
+**Different trusting relationships**
 
-**Different trusting relationships:**
-
-* **Parent/Child** – part of the same forest – a child domain retains an implicit two-way transitive trust with its parent. This is probably the most common type of trust that you’ll encounter.
+* **Parent-Child** – part of the same forest – a child domain retains an implicit two-way transitive trust with its parent. This is probably the most common type of trust that you’ll encounter.
 * **Cross-link** – aka a “shortcut trust” between child domains to improve referral times. Normally referrals in a complex forest have to filter up to the forest root and then back down to the target domain, so for a geographically spread out scenario, cross-links can make sense to cut down on authentication times.
 * **External** – an implicitly non-transitive trust created between disparate domains. “[External trusts provide access to resources in a domain outside of the forest that is not already joined by a forest trust.](https://technet.microsoft.com/en-us/library/cc773178\(v=ws.10\).aspx)” External trusts enforce SID filtering, a security protection covered later in this post.
 * **Tree-root** – an implicit two-way transitive trust between the forest root domain and the new tree root you’re adding. I haven’t encountered tree-root trusts too often, but from the [Microsoft documentation](https://technet.microsoft.com/en-us/library/cc773178\(v=ws.10\).aspx), they’re created when you create a new domain tree in a forest. These are intra-forest trusts, and they [preserve two-way transitivity](https://technet.microsoft.com/en-us/library/cc757352\(v=ws.10\).aspx) while allowing the tree to have a separate domain name (instead of child.parent.com).
-* **Forest** – a transitive trust between one forest root domain and another forest root domain. Forest trusts also enforce SID filtering.
+* **Forest** – a transitive trust between two forest root domain. Forest trusts also enforce SID filtering.
 * **MIT** – a trust with a non-Windows [RFC4120-compliant](https://tools.ietf.org/html/rfc4120) Kerberos domain. I hope to dive more into MIT trusts in the future.
+
+#### Other differences in **trusting relationships**
+
+* A trust relationship can also be **transitive** (A trust B, B trust C, then A trust C) or **non-transitive**.
+* A trust relationship can be set up as **bidirectional trust** (both trust each other) or as **one-way trust** (only one of them trust the other).
 
 ### Attack Path
 
@@ -519,7 +603,7 @@ It is possible to compromise the root domain in various ways. Examples:
 * [Schema attack](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-6-schema-change-trust-attack-from-child-to-parent)
 * Exploit ADCS - Create/modify certificate template to allow authentication as any user (e.g. Enterprise Admins)
 
-### External Forest Domain - One-Way (Inbound)
+### External Forest Domain - One-Way (Inbound) or bidirectional
 
 ```powershell
 Get-DomainTrust
@@ -554,7 +638,7 @@ WhenChanged     : 2/19/2021 10:15:24 PM
 
 In this scenario **your domain** is **trusting** some **privileges** to principal from a **different domains**.
 
-However, when a **domain is trusted** by the trusting domain, the trusted domain **creates a user** with a **predictable name** that uses as **password the trusted password**. Which means that it's possible to **access a user from the trusting domain to get inside the trusted one** to enumerate it and try to escalate more privileges:&#x20;
+However, when a **domain is trusted** by the trusting domain, the trusted domain **creates a user** with a **predictable name** that uses as **password the trusted password**. Which means that it's possible to **access a user from the trusting domain to get inside the trusted one** to enumerate it and try to escalate more privileges:
 
 {% content-ref url="external-forest-domain-one-way-outbound.md" %}
 [external-forest-domain-one-way-outbound.md](external-forest-domain-one-way-outbound.md)
@@ -581,6 +665,10 @@ Moreover, if the **victim mounted his hard drive**, from the **RDP session** pro
 * Does not prevent writeable Configration NC exploitation and trust account attack.
 
 [**More information about domain trusts in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/child-domain-da-to-ea-in-parent-domain)
+
+## AD -> Cloud & Cloud -> AD
+
+{% embed url="https://cloud.hacktricks.xyz/pentesting-cloud/azure-security/az-lateral-movements/azure-ad-connect-hybrid-identity" %}
 
 ## Some General Defenses
 
@@ -648,14 +736,10 @@ If you don't execute this from a Domain Controller, ATA is going to catch you, s
 
 <summary><strong>Support HackTricks and get benefits!</strong></summary>
 
-Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-
-Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-**Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-
-**Share your hacking tricks submitting PRs to the** [**hacktricks github repo**](https://github.com/carlospolop/hacktricks)**.**
+* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Share your hacking tricks by submitting PRs to the** [**hacktricks github repo**](https://github.com/carlospolop/hacktricks)**.**
 
 </details>
